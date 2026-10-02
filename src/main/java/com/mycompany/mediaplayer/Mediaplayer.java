@@ -11,13 +11,13 @@ import java.util.Scanner;
 public class Mediaplayer {
     
     //Overloading: Cari berdasarkan judul
-    public static void cariMedia(String judul, Media[] daftar, int jumlah){
-        System.out.println("Mencari media dengan judul: " + judul);
+    public static void cariMedia(String judul, Media[] daftarMedia, int jumlahMedia){
+        System.out.println("Mencari media dengan judul (teks): " + judul);
         boolean ditemukan = false;
-        for (int i = 0; i < jumlah; i++){
-            if (daftar[i].getJudul().equalsIgnoreCase(judul)) {
+        for (int i = 0; i < jumlahMedia; i++){
+            if (daftarMedia[i].getJudul().equalsIgnoreCase(judul)) {
                 System.out.print("- Ditemukan: ");
-                daftar[i].tampilkanInfo();
+                daftarMedia[i].tampilkanInfo();
                 ditemukan = true;
             }
         }
@@ -25,23 +25,27 @@ public class Mediaplayer {
     }
     
     //Overloading: Cari berdasarkan durasi maksimum (detik)
-    public static void cariMedia(int durasiMaks, Media[] daftar, int jumlah){
-        System.out.println("Mencari media dengan durasi <= " + durasiMaks + "detik");
+    public static void cariMedia(int durasiMaks, Media[] daftarMedia, int jumlahMedia){
+        System.out.println("Mencari media dengan durasi maksimum (angka): " + durasiMaks + "detik");
         boolean ditemukan = false;
-        for (int i = 0; i < jumlah; i++){
-            if (daftar[i].getDurasiDetik() <= durasiMaks) {
-                System.out.println("- Ditemukan: ");
-                daftar[i].tampilkanInfo();
+        for (int i = 0; i < jumlahMedia; i++){
+            if (daftarMedia[i].getDurasiDetik() <= durasiMaks) {
+                System.out.print("- Ditemukan: ");
+                daftarMedia[i].tampilkanInfo();
                 ditemukan = true;
             }
         }
         if (!ditemukan) System.out.println("Media tidak ditemukan.");
     }
     
+    public static void simulasiPutar(Media item){
+        item.putar();
+    }
+    
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+        try (Scanner scanner = new Scanner(System.in)) {
         Media[] daftarMedia = new Media[10];
-        int jumlah = 0;
+        int jumlahMedia = 0;
         boolean isRunning = true;
         
         System.out.println("===============================");
@@ -62,7 +66,7 @@ public class Mediaplayer {
             
             switch (pilihan) {
                 case 1 -> {
-                    if (jumlah >= daftarMedia.length) {
+                    if (jumlahMedia >= daftarMedia.length) {
                         System.out.println("Maaf, playlist penuh!");
                         break;
                     }
@@ -70,87 +74,111 @@ public class Mediaplayer {
                     System.out.println("1. Lagu");
                     System.out.println("2. Video");
                     System.out.println("3. Podcast");
-                    System.out.println("Pilihan (1-3): ");
+                    System.out.println("4. Audiobook");
+                    System.out.println("Pilihan (1-4): ");
                     int jenis = scanner.nextInt();
                     scanner.nextLine();
                     
-                    if (jenis < 1 || jenis > 3){
+                    if (jenis < 1 || jenis > 4){
                         System.out.println("Jenis tidak valid.");
                         break;
                     }
                     
-                    System.out.println("Masukkan judul: ");
-                    String judul = scanner.nextLine();
-                    System.out.println("Masukkan durasi (detik): ");
-                    int durasi = scanner.nextInt();
+                    System.out.print("Masukkan judul: ");
+                    String judulBaru = scanner.nextLine();
+                    
+                    System.out.print("Masukkan durasi (detik): ");
+                    int durasiBaru = scanner.nextInt();
                     scanner.nextLine();
                     
                     if (jenis == 1){
-                        System.out.println("Masukkan artis: ");
+                        System.out.print("Masukkan artis: ");
                         String artis = scanner.nextLine();
-                        System.out.println("Masukkan album: ");
+                        System.out.print("Masukkan album: ");
                         String album = scanner.nextLine();
-                        daftarMedia[jumlah] = new Lagu(judul, durasi, artis, album);
+                        daftarMedia[jumlahMedia] = new Lagu(judulBaru, durasiBaru, artis, album);
                         
                     } else if (jenis == 2){
-                        System.out.println("Masukkan resolusi (ex:1080p): ");
+                        System.out.print("Masukkan resolusi (ex:1080p): ");
                         String resolusi = scanner.nextLine();
-                        daftarMedia[jumlah] = new Video(judul, durasi, resolusi);
+                        daftarMedia[jumlahMedia] = new Video(judulBaru, durasiBaru, resolusi);
+                    
+                    } else if (jenis == 3){
+                        System.out.print("Masukkan nama host: ");
+                        String host = scanner.nextLine();
+                        System.out.print("Masukkan nomor episode: ");
+                        int episode = scanner.nextInt();
+                        scanner.nextLine();
+                        daftarMedia[jumlahMedia] = new Podcast(judulBaru, durasiBaru, host, episode);
                         
                     } else {
-                        System.out.println("Masukkan nama host: ");
-                        String host = scanner.nextLine();
-                        System.out.println("Masukkan nomor episode: ");
-                        int eps = scanner.nextInt();
+                        System.out.print("Masukkan nama narator: ");
+                        String narator = scanner.nextLine();
+                        System.out.print("Masukkan jumlah bab: ");
+                        int bab = scanner.nextInt();
                         scanner.nextLine();
-                        daftarMedia[jumlah] = new Podcast(judul, durasi, host, eps);   
+                        daftarMedia[jumlahMedia] = new AudioBook(judulBaru, durasiBaru, narator, bab);   
                     }
-                    jumlah++;
+                    jumlahMedia++;
                     System.out.println("Sukses! Media berhasil ditambahkan.");
                 }
                 case 2 -> {
-                    System.out.println("\n--- Playlist ---");
-                    if (jumlah == 0){
+                    System.out.println("\n--- Daftar Playlist ---");
+                    if (jumlahMedia == 0){
                         System.out.println("Playlist masih kosong.");
                     } else {
-                        for (int i = 0; i < jumlah; i++){
-                            System.out.println((i + 1) + ". ");
+                        for (int i = 0; i < jumlahMedia; i++){
+                            System.out.print((i + 1) + ". ");
                             daftarMedia[i].tampilkanInfo();
+                            
+                            if (daftarMedia[i] instanceof Lagu) {
+                                Lagu l = (Lagu) daftarMedia[i];
+                                System.out.println("  Artis lagu ini: " + l.getArtis());
+                            
+                            } else if (daftarMedia[i] instanceof AudioBook) {
+                                AudioBook a = (AudioBook) daftarMedia[i];
+                                System.out.println("  Jumlah bab: " + a.getJumlahBab());
+                            }
                         }
-                        System.out.println("* Total Media dibuat: " + Media.totalMediaBerhasilDibuat);
+                        System.out.println("\nTotal Media yang pernah dibuat: " + Media.totalMediaBerhasilDibuat);
                     }
+                    System.out.print("Tekan enter untuk melanjutkan...");
+                    scanner.nextLine();
                 }
                 case 3 -> {
-                   if (jumlah == 0) {
+                   if (jumlahMedia == 0) {
                        System.out.println("Playlist masih kosong.");
                        break;
                    }
-                    System.out.println("Nomor media yang diputar (1-" + jumlah +"): ");
+                    System.out.print("Nomor media yang diputar (1-" + jumlahMedia +"): ");
                     int no = scanner.nextInt();
                     scanner.nextLine();
-                    if (no >= 1 && no <= jumlah) {
-                        daftarMedia[no - 1].putar();
+                    if (no >= 1 && no <= jumlahMedia) {
+                        simulasiPutar(daftarMedia[no - 1]);
                     } else {
                         System.out.println("Nomor tidak valid.");
                     }
+                    System.out.print("Tekan enter untuk melanjutkan...");
+                    scanner.nextLine();
                 }
                 case 4 -> {
-                    System.out.println("\n-- Cari Media --");
-                    System.out.println("1. Berdasarkan judul");
-                    System.out.println("2. Berdasarkan durasi maksimum");
+                    System.out.println("\n-- Fitur Cari Media --");
+                    System.out.println("1. Cari berdasarkan judul teks");
+                    System.out.println("2. Cari berdasarkan durasi maksimum");
                     System.out.println("Pilih (1/2): ");
                     int mode = scanner.nextInt();
                     scanner.nextLine();
                     
                     if (mode == 1){
                         System.out.println("Masukkan judul: ");
-                        cariMedia(scanner.nextLine(), daftarMedia, jumlah);
+                        String kataKunci = scanner.nextLine();
+                        cariMedia(kataKunci, daftarMedia, jumlahMedia);
                     } else if (mode == 2) {
                         System.out.println("Masukkan durasi maksimum (detik): ");
                         
-                        int maks = scanner.nextInt();
+                        int angkaKunci = scanner.nextInt();
                         scanner.nextLine();
-                        cariMedia(maks, daftarMedia, jumlah);
+                        cariMedia(angkaKunci, daftarMedia, jumlahMedia);
                     } else {
                         System.out.println("Pilihan tidak valid.");
                     }
@@ -164,3 +192,5 @@ public class Mediaplayer {
         }
     }
 }
+}
+
