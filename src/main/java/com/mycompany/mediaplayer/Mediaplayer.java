@@ -130,17 +130,21 @@ public class Mediaplayer {
                         for (int i = 0; i < jumlahMedia; i++){
                             System.out.print((i + 1) + ". ");
                             daftarMedia[i].tampilkanInfo();
+                            simulasiPutar(daftarMedia[i]);
                             
-                            if (daftarMedia[i] instanceof Lagu) {
-                                Lagu l = (Lagu) daftarMedia[i];
-                                System.out.println("  Artis lagu ini: " + l.getArtis());
+                            daftarMedia[i].hitungEstimasiKuota();
                             
-                            } else if (daftarMedia[i] instanceof AudioBook) {
-                                AudioBook a = (AudioBook) daftarMedia[i];
-                                System.out.println("  Jumlah bab: " + a.getJumlahBab());
+                            if (daftarMedia[i] instanceof Dapatdiunduh) {
+                                Dapatdiunduh itemUnduh = (Dapatdiunduh) daftarMedia[i];
+                            
+                            } if (daftarMedia[i] instanceof Dapatdinilai) {
+                                Dapatdinilai itemBisaDinilai = (Dapatdinilai) daftarMedia[i];
+                                
+                                itemBisaDinilai.beriRating(5);
                             }
+                            System.out.println();
                         }
-                        System.out.println("\nTotal Media yang pernah dibuat: " + Media.totalMediaBerhasilDibuat);
+                        System.out.println("Total Media di Playlist: " + Media.totalMediaBerhasilDibuat);
                     }
                     System.out.print("Tekan enter untuk melanjutkan...");
                     scanner.nextLine();
@@ -182,6 +186,8 @@ public class Mediaplayer {
                     } else {
                         System.out.println("Pilihan tidak valid.");
                     }
+                    System.out.println("Tekan enter untuk melanjutkan...");
+                    scanner.nextLine();
                 }
                 case 5 -> {
                     System.out.println("Terima kasih telah menggunakan MediaPlayer!");

@@ -8,7 +8,7 @@ package com.mycompany.mediaplayer;
  *
  * @author ASUS
  */
-public class Lagu extends Media {
+public class Lagu extends Media implements Dapatdiunduh, Dapatdinilai {
     private String artis;
     private String album;
     
@@ -29,5 +29,21 @@ public class Lagu extends Media {
     @Override
     public void putar() {
         System.out.println("Memutar lagu \"" + judul + "\" oleh " + artis + " (hanya audio).");
-    }   
+    }
+    
+    @Override
+    public void hitungEstimasiKuota() {
+        double mb = durasiDetik / 60.0 * 1.0;
+        System.out.printf("-> Estimasi Kuota: %1f MB (audio, sekitar 1 MB / mneit).%n", mb);
+    }
+    
+    @Override
+    public void prosesUnduh() {
+        System.out.println("-> [PROSES UNDUH] File audio lagu disimpam ke penyimpanan offline.");
+    }
+    
+    @Override
+    public void beriRating(int bintang) {
+        System.out.println("-> [ULASAN LAGU] Lagu ini mendapat rating " + bintang + "/5 bintang.");
+    }
 }

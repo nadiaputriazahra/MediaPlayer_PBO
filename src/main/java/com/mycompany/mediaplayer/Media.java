@@ -8,7 +8,7 @@ package com.mycompany.mediaplayer;
  *
  * @author ASUS
  */
-public class Media {
+public abstract class Media {
     protected String judul;
     protected int durasiDetik;
     
@@ -43,4 +43,5 @@ public class Media {
     public void putar() {
         System.out.println("Memutar media: " + judul);
     }
+    public abstract void hitungEstimasiKuota();
 }

@@ -8,7 +8,7 @@ package com.mycompany.mediaplayer;
  *
  * @author ASUS
  */
-public class  Video extends Media {
+public class  Video extends Media implements Dapatdiunduh, Dapatdinilai {
     private String resolusi;
     
     public Video(String judul, int durasiDetik, String resolusi){
@@ -26,5 +26,21 @@ public class  Video extends Media {
     @Override
     public void putar() {
         System.out.println("Memutar video \"" + judul + "\" dalam resolusi " + resolusi + " (audio + gambar).");
+    }
+    
+    @Override
+    public void hitungEstimasiKuota() {
+        double mb = durasiDetik / 60.0 * 15.0;
+        System.out.printf("-> Estimasi Kuota: %1f MB (video, sekitar 15 MB / menit).%n", mb);
+    }
+    
+    @Override
+    public void prosesUnduh() {
+        System.out.println("-> [PROSES UNDUH] File video resolusi " + resolusi + " diunduh, pastikan ruang penyimpanan cukup.");
+    }
+    
+    @Override
+    public void beriRating(int bintang) {
+        System.out.println("-> [ULASAN VIDEO] Video ini mendapat rating " + bintang + "/5 bintang.");
     }
 }

@@ -8,7 +8,7 @@ package com.mycompany.mediaplayer;
  *
  * @author ASUS
  */
-public class AudioBook extends Media {
+public class AudioBook extends Media implements Dapatdiunduh {
     private String narator;
     private int jumlahBab;
     
@@ -29,5 +29,16 @@ public class AudioBook extends Media {
     @Override
     public void putar() {
         System.out.println("Memutar AudioBook \"" + judul + "\" dibacakan oleh " + narator + " mulai dari bab 1 dari " + jumlahBab + " bab.");
+    }
+    
+    @Override
+    public void hitungEstimasiKuota() {
+        double mb = durasiDetik / 60.0 * 1.0;
+        System.out.printf("-> Estimasi Kuota: %1f MB (audio berkomppresi tinggi, sekitar 0.5 MB / menit).%n", mb);
+    }
+    
+    @Override
+    public void prosesUnduh() {
+        System.out.println("-> [PROSES UNDUH] " + jumlahBab + " bab audiobook diunduh satu per satu.");
     }
 }

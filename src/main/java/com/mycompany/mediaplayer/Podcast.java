@@ -8,7 +8,7 @@ package com.mycompany.mediaplayer;
  *
  * @author ASUS
  */
-public class Podcast extends Media {
+public class Podcast extends Media implements Dapatdinilai {
     private String host;
     private int episode;
     
@@ -27,5 +27,16 @@ public class Podcast extends Media {
     @Override
     public void putar() {
         System.out.println("Memutar podcast \"" + judul + "\" episode " + episode + " bersama " + host + ".");
+    }
+    
+    @Override
+    public void hitungEstimasiKuota() {
+        double mb = durasiDetik / 60.0 * 1.0;
+        System.out.printf("-> Estimasi Kuota: %1f MB (streaming saja, sekitar 0.5 MB / menit).%n", mb);
+    }
+    
+    @Override
+    public void beriRating(int bintang) {
+        System.out.println("-> [ULASAN PODCAST] Episode ini mendapat rating " + bintang + "/5 bintang.");
     }
 }
