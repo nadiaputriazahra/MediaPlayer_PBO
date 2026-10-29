@@ -12,8 +12,9 @@ public class Lagu extends Media implements Dapatdiunduh, Dapatdinilai {
     private String artis;
     private String album;
     
-    public Lagu(String judul, int durasiDetik, String artis, String album){
+    public Lagu(String judul, int durasiDetik, String artis, String album)throws Exception {
         super(judul, durasiDetik);
+        if (artis == null || artis.trim().isEmpty()) throw new Exception("Nama artis tidak boleh kosong!");
         this.artis = artis;
         this.album = album;
     }
@@ -34,7 +35,7 @@ public class Lagu extends Media implements Dapatdiunduh, Dapatdinilai {
     @Override
     public void hitungEstimasiKuota() {
         double mb = durasiDetik / 60.0 * 1.0;
-        System.out.printf("-> Estimasi Kuota: %1f MB (audio, sekitar 1 MB / mneit).%n", mb);
+        System.out.printf("-> Estimasi Kuota: %.1f MB (audio, sekitar 1 MB / menit).%n", mb);
     }
     
     @Override

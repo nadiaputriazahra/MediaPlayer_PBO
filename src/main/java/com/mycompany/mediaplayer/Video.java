@@ -11,8 +11,9 @@ package com.mycompany.mediaplayer;
 public class  Video extends Media implements Dapatdiunduh, Dapatdinilai {
     private String resolusi;
     
-    public Video(String judul, int durasiDetik, String resolusi){
+    public Video(String judul, int durasiDetik, String resolusi) throws Exception{
         super(judul, durasiDetik);
+        if (resolusi == null || resolusi.trim().isEmpty()) throw new Exception("Resolusi Video tidak boleh kosong!");
         this.resolusi = resolusi;
     }
      
@@ -31,7 +32,7 @@ public class  Video extends Media implements Dapatdiunduh, Dapatdinilai {
     @Override
     public void hitungEstimasiKuota() {
         double mb = durasiDetik / 60.0 * 15.0;
-        System.out.printf("-> Estimasi Kuota: %1f MB (video, sekitar 15 MB / menit).%n", mb);
+        System.out.printf("-> Estimasi Kuota: %.1f MB (video, sekitar 15 MB / menit).%n", mb);
     }
     
     @Override

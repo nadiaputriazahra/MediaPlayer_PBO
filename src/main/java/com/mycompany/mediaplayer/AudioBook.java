@@ -12,8 +12,9 @@ public class AudioBook extends Media implements Dapatdiunduh {
     private String narator;
     private int jumlahBab;
     
-    public AudioBook(String judul, int durasiDetik, String narator, int jumlahBab) {
+    public AudioBook(String judul, int durasiDetik, String narator, int jumlahBab) throws Exception {
         super(judul, durasiDetik);
+        if (jumlahBab <= 0) throw new Exception ("Jumlah bab harus lebih dari 0!");
         this.narator = narator;
         this.jumlahBab = jumlahBab;
     }
@@ -34,7 +35,7 @@ public class AudioBook extends Media implements Dapatdiunduh {
     @Override
     public void hitungEstimasiKuota() {
         double mb = durasiDetik / 60.0 * 1.0;
-        System.out.printf("-> Estimasi Kuota: %1f MB (audio berkomppresi tinggi, sekitar 0.5 MB / menit).%n", mb);
+        System.out.printf("-> Estimasi Kuota: %.1f MB (audio berkomppresi tinggi, sekitar 0.5 MB / menit).%n", mb);
     }
     
     @Override

@@ -12,8 +12,9 @@ public class Podcast extends Media implements Dapatdinilai {
     private String host;
     private int episode;
     
-    public Podcast(String judul, int durasiDetik, String host, int episode){
+    public Podcast(String judul, int durasiDetik, String host, int episode) throws Exception {
         super(judul, durasiDetik);
+        if (episode <= 0) throw new Exception("Nomor Episode harus lebih dari 0!");
         this.host = host;
         this.episode = episode;
     }
@@ -32,7 +33,7 @@ public class Podcast extends Media implements Dapatdinilai {
     @Override
     public void hitungEstimasiKuota() {
         double mb = durasiDetik / 60.0 * 1.0;
-        System.out.printf("-> Estimasi Kuota: %1f MB (streaming saja, sekitar 0.5 MB / menit).%n", mb);
+        System.out.printf("-> Estimasi Kuota: %.1f MB (streaming saja, sekitar 0.5 MB / menit).%n", mb);
     }
     
     @Override

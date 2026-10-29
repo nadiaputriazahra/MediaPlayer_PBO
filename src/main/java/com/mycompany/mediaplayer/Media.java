@@ -14,9 +14,15 @@ public abstract class Media {
     
     public static int totalMediaBerhasilDibuat = 0;
     
-    public Media(String judul, int durasiDetik){
+    public Media(String judul, int durasiDetik) throws Exception {
+        if (judul == null || judul.trim().isEmpty()){
+            throw new Exception("Judul media tidak boleh kosong!");
+        }
+        if (durasiDetik <= 0){
+            throw new Exception("Durasi tidak valid (harus lebih dari 0 detik)!");
+        }
         this.judul = judul;
-        setDurasiDetik(durasiDetik);
+        this.durasiDetik = durasiDetik;
         totalMediaBerhasilDibuat++;
     }
     
@@ -27,8 +33,7 @@ public abstract class Media {
         if (durasiDetik > 0) {
             this.durasiDetik = durasiDetik;
         } else {
-            System.out.println("Durasi tidak valid, diset ke 1 detik.");
-            this.durasiDetik = 1;
+            System.out.println("Durasi tidak valid");
         }
     }
     
